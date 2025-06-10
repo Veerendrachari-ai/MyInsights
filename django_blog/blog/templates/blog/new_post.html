@@ -1,0 +1,180 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+<nav 
+  class="bg-gradient-to-r from-blue-700 via-purple-700 to-purple-600 shadow-md
+         transition-colors duration-500 ease-in-out"
+  x-data="{ mobileOpen: false, dropdownOpen: false }"
+  @mouseenter="$el.classList.replace('from-blue-700', 'from-purple-800'); 
+              $el.classList.replace('via-purple-700', 'via-purple-900'); 
+              $el.classList.replace('to-purple-600', 'to-purple-800')"
+  @mouseleave="$el.classList.replace('from-purple-800', 'from-blue-700'); 
+              $el.classList.replace('via-purple-900', 'via-purple-700'); 
+              $el.classList.replace('to-purple-800', 'to-purple-600')"
+>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+    <div class="flex justify-between items-center h-16">
+
+      <!-- Brand -->
+      <a href="#" class="text-xl font-serif font-semibold text-white hover:text-gray-300 transition focus:outline-none">
+        MyInsights
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex md:items-center space-x-10">
+
+        <!-- Dropdown -->
+        <div class="relative">
+          <button
+            x-data="{ clickCount: 0, lastClickTime: 0 }"
+            @click="
+              const now = Date.now();
+              if (now - lastClickTime < 300) {
+                dropdownOpen = false;
+                clickCount = 0;
+              } else {
+                dropdownOpen = true;
+                clickCount = 1;
+                lastClickTime = now;
+              }
+            "
+            class="flex items-center space-x-1 text-white hover:text-gray-200 font-medium focus:outline-none transition-colors duration-300"
+            aria-haspopup="true"
+            :aria-expanded="dropdownOpen.toString()"
+            aria-controls="desktop-menu"
+            type="button"
+          >
+            <span>Menu</span>
+            <svg class="w-4 h-4 text-purple-200" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Items -->
+          <div
+            id="desktop-menu"
+            x-show="dropdownOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 transform scale-95"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-95"
+            class="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-md shadow-md z-50"
+            @click.away="dropdownOpen = false"
+            tabindex="0"
+            @mouseenter="$el.classList.add('bg-purple-50')"
+            @mouseleave="$el.classList.remove('bg-purple-50')"
+            style="display: none;"
+          >
+            <a href="{% url 'newpost' %}" class="block px-4 py-2 text-gray-700 hover:bg-purple-100 transition-colors duration-300">New Post</a>
+            <a href="{% url 'mypost' %}" class="block px-4 py-2 text-gray-700 hover:bg-purple-100 transition-colors duration-300">My Post</a>
+            <hr class="border-t border-gray-200 my-1" />
+            <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-purple-100 transition-colors duration-300">Sign Out</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button
+        @click="mobileOpen = !mobileOpen"
+        class="md:hidden text-white hover:text-gray-200 focus:outline-none transition-colors duration-300"
+        aria-label="Toggle menu"
+        :aria-expanded="mobileOpen.toString()"
+        aria-controls="mobile-menu"
+        type="button"
+      >
+        <svg
+          x-show="!mobileOpen"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg
+          x-show="mobileOpen"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+          style="display: none;"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      x-show="mobileOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 transform -translate-y-2"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform -translate-y-2"
+      class="md:hidden bg-white border border-gray-200 rounded-b-md mt-1 py-3 px-6 space-y-1 shadow-sm"
+      @click.away="mobileOpen = false"
+      style="display: none;"
+    >
+      <a href="{% url 'newpost' %}" class="block py-2 text-gray-700 hover:bg-purple-100 rounded transition-colors duration-300">New Post</a>
+      <a href="{% url 'mypost' %}" class="block py-2 text-gray-700 hover:bg-purple-100 rounded transition-colors duration-300">My Post</a>
+      <hr class="border-t border-gray-200" />
+      <a href="{% url 'logout' %}" class="block py-2 text-red-600 hover:bg-purple-100 rounded transition-colors duration-300">Sign Out</a>
+    </div>
+  </div>
+</nav>
+
+<form method="post" class="max-w-4xl mx-auto p-8 mt-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+    {% csrf_token %}
+    <!-- Main heading -->
+    <h1 class="text-3xl font-extrabold mb-6 text-purple-400 drop-shadow-md">Make a new post.</h1>
+    <hr class="border-gray-300/30 mb-8" />
+
+    <div class="mb-6">
+        <!-- Label with custom color -->
+        <label for="title" class="block text-xl font-semibold mb-2 text-purple-300">Heading / Title</label>
+        <input
+            type="text"
+            id="title"
+            name="title"
+            class="w-full px-4 py-3 rounded-lg bg-white/80 border border-gray-700 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            placeholder="Enter your post title"
+            required
+        />
+    </div>
+
+    <div class="mb-6">
+        <!-- Label with custom color -->
+        <label for="content" class="block text-xl font-semibold mb-2 text-purple-300">Content</label>
+        <textarea
+            id="content"
+            name="content"
+            rows="7"
+            class="w-full px-4 py-3 rounded-lg bg-white/80 border border-gray-700 placeholder-gray-500 text-gray-900 resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            placeholder="Write your post content here..."
+            required
+        ></textarea>
+    </div>
+
+    <button
+        type="submit"
+        class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition"
+    >
+        Submit
+    </button>
+</form>
+
+{% endblock %}

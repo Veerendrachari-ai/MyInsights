@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <title>MyInsights</title>
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+
+        
+        {% endblock %}
+    </div>
+<!-- Tailwind CDN (for quick use) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Poppins', 'sans-serif'],
+        },
+        animation: {
+          fadeInUp: 'fadeInUp 1.2s ease',
+          slideInLeft: 'slideInLeft 1s ease-out',
+          slideInRight: 'slideInRight 1s ease-out',
+          popIn: 'popIn 1.5s ease'
+        },
+        keyframes: {
+          fadeInUp: {
+            '0%': { opacity: '0', transform: 'translateY(20px)' },
+            '100%': { opacity: '1', transform: 'translateY(0)' },
+          },
+          slideInLeft: {
+            '0%': { opacity: '0', transform: 'translateX(-100px)' },
+            '100%': { opacity: '1', transform: 'translateX(0)' },
+          },
+          slideInRight: {
+            '0%': { opacity: '0', transform: 'translateX(100px)' },
+            '100%': { opacity: '1', transform: 'translateX(0)' },
+          },
+          popIn: {
+            '0%': { opacity: '0', transform: 'scale(0.95)' },
+            '100%': { opacity: '1', transform: 'scale(1)' },
+          }
+        }
+      }
+    }
+  }
+</script>
+
+
+</body>
+</html>
